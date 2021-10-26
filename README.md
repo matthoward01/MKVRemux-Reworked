@@ -2,7 +2,7 @@
 Paste an input path
 Paste an output path
 
-If you know the following:
+If you know the following:<br>
 If you want to find a track based on the name and set the language to japanese click the check box next to Search name.
 If you want to find a track based on the language type in the Search Language box, and set the dropdown to the language you would like the tracks changed to.
 If you want to find a track based on the track number, type the number in the Search track field, and set the dropdown to the language you want to change it to.
