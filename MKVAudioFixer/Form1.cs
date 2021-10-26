@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MKVAudioFixer.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +17,7 @@ namespace MKVAudioFixer
     {
         Models.Videos remuxVideo = new Models.Videos();
         List<Models.Videos> remuxList = new List<Models.Videos>();
-        string mkvmergePath = @"C:\Program Files\MKVToolNix\";
+        string mkvmergePath = Settings.Default.MkvToolNixPath;
 
         public Form1()
         {
@@ -125,7 +126,7 @@ namespace MKVAudioFixer
             return trackNum;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonPrecheck_Click(object sender, EventArgs e)
         {
             remuxList.Clear();
             remuxVideo = new Models.Videos();
@@ -167,19 +168,19 @@ namespace MKVAudioFixer
                 {
                     if (t.Type == "subtitles")
                     {
-                        if (CheckSearch.Checked == true)
+                        if (CheckSearch.Checked == true && comboSearchName.Text != "")
                         {
                             if ((search == null) && (t.Name == null))
                             {
-                                t.Language = "jpn";
+                                t.Language = comboSearchName.Text;
                             }
                             else if (t.Name == null)
                             {
-                                t.Language = "jpn";
+                                t.Language = comboSearchName.Text;
                             }
                             else if (t.Name.ToLower().Contains(search))
                             {
-                                t.Language = "jpn";
+                                t.Language = comboSearchName.Text;
                             }
                         }
                         if (searchLanguage != "")
@@ -187,15 +188,21 @@ namespace MKVAudioFixer
                             if (t.Language.ToLower().Contains(searchLanguage))
                             {
                                 t.Language = ComboLanguage.Text;
-                                t.Name = ComboLanguage.Text;
+                                if (t.Name == null)
+                                {
+                                    t.Name = ComboLanguage.Text;
+                                }
                             }
                         }
                         if (searchTrack != "")
                         {
                             if (t.Id.ToLower().Contains(searchTrack))
                             {
-                                t.Language = ComboLanguage.Text;
-                                t.Name = ComboLanguage.Text;
+                                t.Language = comboTrack.Text;
+                                if (t.Name == null)
+                                {
+                                    t.Name = comboTrack.Text;
+                                }
                             }
                         }
                         TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
@@ -215,7 +222,7 @@ namespace MKVAudioFixer
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonRemux_Click(object sender, EventArgs e)
         {
             string cmdLine = "";
             string fullCmdLine = "";
@@ -271,10 +278,52 @@ namespace MKVAudioFixer
             if (CheckSearch.Checked)
             {
                 SearchText.Enabled = true;
+                comboSearchName.Enabled = true;
             }
             else
             {
                 SearchText.Enabled = false;
+                comboSearchName.Enabled = false;
+            }
+        }
+
+        private void bMkvToolNix_Click(object sender, EventArgs e)
+        {
+            fbdMkvToolNix.SelectedPath = Settings.Default.LastFolder;  
+
+            if (fbdMkvToolNix.ShowDialog() == DialogResult.OK)
+            {                
+                Settings.Default.LastFolder = fbdMkvToolNix.SelectedPath;
+                Settings.Default.MkvToolNixPath = fbdMkvToolNix.SelectedPath;
+                if (!Settings.Default.MkvToolNixPath.EndsWith("\\"))
+                {
+                    Settings.Default.MkvToolNixPath += "\\";
+                }
+                Settings.Default.Save();
+            }
+        }
+
+        private void OutputDir_Leave(object sender, EventArgs e)
+        {
+            if (OutputDir.Text != "")
+            {
+                buttonRemux.Enabled = true;
+            }
+            else
+            {
+                buttonRemux.Enabled = false;
+            }
+        }
+
+        private void InputDir_Leave(object sender, EventArgs e)
+        {
+            if (InputDir.Text != "")
+            {
+                buttonPrecheck.Enabled = true;
+            }
+            else
+            {
+                buttonPrecheck.Enabled = false;
             }
         }
     }
