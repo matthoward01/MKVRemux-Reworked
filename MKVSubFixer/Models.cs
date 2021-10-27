@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MKVAudioFixer
+namespace MKVSubFixer
 {
     class Models
     {

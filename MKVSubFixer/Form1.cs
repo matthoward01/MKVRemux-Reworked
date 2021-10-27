@@ -1,4 +1,4 @@
-﻿using MKVAudioFixer.Properties;
+﻿using MKVSubFixer.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MKVAudioFixer
+namespace MKVSubFixer
 {
     public partial class Form1 : Form
     {
@@ -22,112 +22,75 @@ namespace MKVAudioFixer
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private Models.Videos GetTrackInfo(string inputDir)
-        {
-            Models.Videos videoInfo = new Models.Videos();
-            //List<Models.Videos> videoList = new List<Models.Videos>();
-            Models.Tracks tracks = new Models.Tracks();
-            List<Models.Tracks> trackList = new List<Models.Tracks>();
-
-            string filename = inputDir;
-            //string filename = @"H:\[Judas] Bleach 112-139 [BD 1080p][HEVC x265 10bit][Dual-Audio][Eng-Subs]\[Judas] Bleach - 113.mkv";
-
-            string runfile = "\"" + mkvmergePath + "mkvinfo.exe\" \"" + filename + "\"";
-
-            var startinfo = new ProcessStartInfo("cmd")
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardInput = true,
-                RedirectStandardError = true,
-                FileName = runfile,
-            };
-
-            var process = new Process { StartInfo = startinfo };
-            process.Start();
-            var reader = process.StandardOutput;
-
-            bool processFile = true;
-            while (processFile == true)
-            {
-                var nextLine = reader.ReadLine();
-                if (nextLine != null)
-                {
-                    int indexOfPlus = nextLine.IndexOf('+');
-                    int indexOfColon = nextLine.IndexOf(':');
-                    if (indexOfPlus > -1 && indexOfColon > indexOfPlus && nextLine.Length > indexOfColon + 2)
-                    {
-                        string key = nextLine.Substring(indexOfPlus + 2, indexOfColon - (indexOfPlus + 2));
-                        string content = nextLine.Substring(indexOfColon + 2);
-
-                        switch (key)
-                        {
-                            case "Track number":
-
-                                if (tracks.Id != null)
-                                {
-                                    if (tracks.Language == null)
-                                    {
-                                        tracks.Language = "eng";
-                                    }
-                                    videoInfo.TrackList.Add(tracks);
-                                    tracks = new Models.Tracks();
-
-                                }
-                                tracks.Id = ExtractTrackNumbers(content);
-                                videoInfo.Name = Path.GetFileName(filename);
-                                //tracks.Id = Convert.ToInt32(content);
-                                break;
-                            case "Track type":
-                                tracks.Type = content;
-                                break;
-                            case "Codec ID":
-                                tracks.Codec = content;
-                                break;
-                            //case "Language":
-                            case "Language":
-                                tracks.Language = content;
-                                break;
-                            case "Name":
-                                tracks.Name = content;
-                                break;
-                        }
-                    }
-                    else if (nextLine.Contains("Cluster"))
-                    {
-                        if (tracks.Language == null)
-                        {
-                            tracks.Language = "eng";
-                        }
-                        videoInfo.TrackList.Add(tracks);
-                        tracks = new Models.Tracks();
-                        processFile = false;
-                    }
-                }
-            }
-
-            return videoInfo;
-        }
-        private string ExtractTrackNumbers(string content)
-        {
-            Int32 indexOfOpenParen = content.IndexOf('(');
-            Int32 indexOfColon = content.LastIndexOf(':');
-            Int32 indexOfCloseParen = content.LastIndexOf(')');
-            string trackNum = "";
-            if (indexOfOpenParen > 1 && indexOfColon > indexOfOpenParen + 1 && indexOfCloseParen > indexOfColon + 1)
-            {
-                trackNum = content.Substring(0, indexOfOpenParen - 1);
-                string mkvToolsTrackNum = content.Substring(indexOfColon + 2, indexOfCloseParen - (indexOfColon + 2));
-
-            }
-            return trackNum;
-        }
+        }                
 
         private void buttonPrecheck_Click(object sender, EventArgs e)
         {
+            PreCheck();
+        }       
+
+        private void buttonRemux_Click(object sender, EventArgs e)
+        {
+            Remux();
+        }        
+
+        private void CheckSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckSearch.Checked)
+            {
+                SearchText.Enabled = true;
+                comboSearchName.Enabled = true;
+            }
+            else
+            {
+                SearchText.Enabled = false;
+                comboSearchName.Enabled = false;
+            }
+        }
+
+        private void bMkvToolNix_Click(object sender, EventArgs e)
+        {
+            fbdMkvToolNix.SelectedPath = Settings.Default.LastFolder;  
+
+            if (fbdMkvToolNix.ShowDialog() == DialogResult.OK)
+            {                
+                Settings.Default.LastFolder = fbdMkvToolNix.SelectedPath;
+                Settings.Default.MkvToolNixPath = fbdMkvToolNix.SelectedPath;
+                if (!Settings.Default.MkvToolNixPath.EndsWith("\\"))
+                {
+                    Settings.Default.MkvToolNixPath += "\\";
+                }
+                Settings.Default.Save();
+            }
+        }
+
+        private void OutputDir_Leave(object sender, EventArgs e)
+        {
+            if (OutputDir.Text != "" && Directory.Exists(OutputDir.Text))
+            {
+                buttonRemux.Enabled = true;
+            }
+            else
+            {
+                buttonRemux.Enabled = false;
+            }
+        }
+
+        private void InputDir_Leave(object sender, EventArgs e)
+        {
+            if (InputDir.Text != "" && Directory.Exists(InputDir.Text))
+            {                
+                buttonPrecheck.Enabled = true;
+            }
+            else
+            {
+                buttonPrecheck.Enabled = false;
+            }
+        }
+
+        private void PreCheck()
+        {
+            TrackInfo trackInfo = new TrackInfo();
             remuxList.Clear();
             remuxVideo = new Models.Videos();
             TrackList.Items.Clear();
@@ -149,7 +112,7 @@ namespace MKVAudioFixer
             string[] inputFileList = Directory.GetFiles(inputDir, "*.mkv");
             foreach (string f in inputFileList)
             {
-                videoInfo = GetTrackInfo(f);
+                videoInfo = trackInfo.GetTrackInfo(f);
                 videoList.Add(videoInfo);
             }
             foreach (Models.Videos v in videoList)
@@ -221,8 +184,7 @@ namespace MKVAudioFixer
                 remuxVideo = new Models.Videos();
             }
         }
-
-        private void buttonRemux_Click(object sender, EventArgs e)
+        private void Remux()
         {
             string cmdLine = "";
             string fullCmdLine = "";
@@ -270,60 +232,6 @@ namespace MKVAudioFixer
             using (System.IO.StreamWriter batchFile = new System.IO.StreamWriter(Path.Combine(outputPath, "Batch.bat"), true))
             {
                 batchFile.WriteLine(cmdLine);
-            }
-        }
-
-        private void CheckSearch_CheckedChanged(object sender, EventArgs e)
-        {
-            if (CheckSearch.Checked)
-            {
-                SearchText.Enabled = true;
-                comboSearchName.Enabled = true;
-            }
-            else
-            {
-                SearchText.Enabled = false;
-                comboSearchName.Enabled = false;
-            }
-        }
-
-        private void bMkvToolNix_Click(object sender, EventArgs e)
-        {
-            fbdMkvToolNix.SelectedPath = Settings.Default.LastFolder;  
-
-            if (fbdMkvToolNix.ShowDialog() == DialogResult.OK)
-            {                
-                Settings.Default.LastFolder = fbdMkvToolNix.SelectedPath;
-                Settings.Default.MkvToolNixPath = fbdMkvToolNix.SelectedPath;
-                if (!Settings.Default.MkvToolNixPath.EndsWith("\\"))
-                {
-                    Settings.Default.MkvToolNixPath += "\\";
-                }
-                Settings.Default.Save();
-            }
-        }
-
-        private void OutputDir_Leave(object sender, EventArgs e)
-        {
-            if (OutputDir.Text != "")
-            {
-                buttonRemux.Enabled = true;
-            }
-            else
-            {
-                buttonRemux.Enabled = false;
-            }
-        }
-
-        private void InputDir_Leave(object sender, EventArgs e)
-        {
-            if (InputDir.Text != "")
-            {
-                buttonPrecheck.Enabled = true;
-            }
-            else
-            {
-                buttonPrecheck.Enabled = false;
             }
         }
     }

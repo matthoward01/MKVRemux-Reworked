@@ -1,5 +1,5 @@
 ﻿
-namespace MKVAudioFixer
+namespace MKVSubFixer
 {
     partial class Form1
     {
