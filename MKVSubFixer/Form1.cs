@@ -66,7 +66,7 @@ namespace MKVSubFixer
 
         private void OutputDir_Leave(object sender, EventArgs e)
         {
-            if (OutputDir.Text != "" && Directory.Exists(OutputDir.Text))
+            if (OutputDir.Text != "")
             {
                 buttonRemux.Enabled = true;
             }
@@ -144,7 +144,7 @@ namespace MKVSubFixer
                         TrackList.Items.Add(t.Id + "||" + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
                     }
                 }
-                TrackListRemux.Items.Add(v.Name);
+                //TrackListRemux.Items.Add(v.Name);
                 foreach (Models.Tracks t in v.TrackList)
                 {
                     if (t.Type == "subtitles")
@@ -192,12 +192,12 @@ namespace MKVSubFixer
                             {
                                 t.Id = newTrackNumber.ToString();
                             }
-                            if (Int32.Parse(t.Id) == newTrackNumber)
+                            else if (Int32.Parse(t.Id) == newTrackNumber)
                             {
                                 t.Id = oldTrackNumber.ToString();
                             }
                         }
-                        TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
+                        //TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
                     }
                     remuxTracks.Id = t.Id;
                     remuxTracks.Type = t.Type;
@@ -206,11 +206,23 @@ namespace MKVSubFixer
                     remuxTracks.Codec = t.Codec;
                     remuxTrackList.Add(remuxTracks);
                     remuxTracks = new Models.Tracks();
-                }
+                }                
                 remuxVideo.Name = v.Name;
-                remuxVideo.TrackList = remuxTrackList;
+                remuxVideo.TrackList = remuxTrackList.OrderBy(x => x.Id).ToList();
                 remuxList.Add(remuxVideo);
-                remuxVideo = new Models.Videos();
+                remuxVideo = new Models.Videos();                
+            }
+            foreach (Models.Videos v in remuxList)
+            {
+                TrackListRemux.Items.Add(v.Name);
+                foreach (Models.Tracks t in v.TrackList)
+                {
+                    if (t.Type == "subtitles")
+                    {
+                        TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
+
+                    }
+                }
             }
         }
         private void Remux()

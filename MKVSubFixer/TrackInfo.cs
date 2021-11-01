@@ -76,10 +76,10 @@ namespace MKVSubFixer
                                 break;
                             case "Name":
                                 tracks.Name = content;
-                                break;
+                                break;                            
                         }
                     }
-                    else if (nextLine.Contains("Cluster"))
+                    else if (nextLine.Contains("Attachments") || nextLine.Contains("Tags"))
                     {
                         if (tracks.Language == null)
                         {
