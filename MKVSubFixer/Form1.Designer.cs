@@ -49,6 +49,7 @@ namespace MKVSubFixer
             this.bMkvToolNix = new System.Windows.Forms.Button();
             this.fbdMkvToolNix = new System.Windows.Forms.FolderBrowserDialog();
             this.comboSearchName = new System.Windows.Forms.ComboBox();
+            this.tbNewTrackNum = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -116,7 +117,7 @@ namespace MKVSubFixer
             // 
             this.SearchLanguage.Location = new System.Drawing.Point(339, 107);
             this.SearchLanguage.Name = "SearchLanguage";
-            this.SearchLanguage.Size = new System.Drawing.Size(69, 20);
+            this.SearchLanguage.Size = new System.Drawing.Size(44, 20);
             this.SearchLanguage.TabIndex = 9;
             // 
             // label4
@@ -134,7 +135,7 @@ namespace MKVSubFixer
             this.ComboLanguage.Items.AddRange(new object[] {
             "eng",
             "jpn"});
-            this.ComboLanguage.Location = new System.Drawing.Point(414, 107);
+            this.ComboLanguage.Location = new System.Drawing.Point(389, 106);
             this.ComboLanguage.Name = "ComboLanguage";
             this.ComboLanguage.Size = new System.Drawing.Size(56, 21);
             this.ComboLanguage.TabIndex = 10;
@@ -145,22 +146,22 @@ namespace MKVSubFixer
             this.comboTrack.Items.AddRange(new object[] {
             "eng",
             "jpn"});
-            this.comboTrack.Location = new System.Drawing.Point(627, 107);
+            this.comboTrack.Location = new System.Drawing.Point(567, 107);
             this.comboTrack.Name = "comboTrack";
             this.comboTrack.Size = new System.Drawing.Size(56, 21);
             this.comboTrack.TabIndex = 13;
             // 
             // SearchTrack
             // 
-            this.SearchTrack.Location = new System.Drawing.Point(552, 107);
+            this.SearchTrack.Location = new System.Drawing.Point(532, 107);
             this.SearchTrack.Name = "SearchTrack";
-            this.SearchTrack.Size = new System.Drawing.Size(69, 20);
+            this.SearchTrack.Size = new System.Drawing.Size(29, 20);
             this.SearchTrack.TabIndex = 12;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(478, 110);
+            this.label5.Location = new System.Drawing.Point(454, 109);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(72, 13);
             this.label5.TabIndex = 11;
@@ -226,11 +227,19 @@ namespace MKVSubFixer
             this.comboSearchName.Size = new System.Drawing.Size(56, 21);
             this.comboSearchName.TabIndex = 22;
             // 
+            // tbNewTrackNum
+            // 
+            this.tbNewTrackNum.Location = new System.Drawing.Point(629, 108);
+            this.tbNewTrackNum.Name = "tbNewTrackNum";
+            this.tbNewTrackNum.Size = new System.Drawing.Size(29, 20);
+            this.tbNewTrackNum.TabIndex = 23;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 305);
+            this.Controls.Add(this.tbNewTrackNum);
             this.Controls.Add(this.comboSearchName);
             this.Controls.Add(this.bMkvToolNix);
             this.Controls.Add(this.TrackListRemux);
@@ -279,6 +288,7 @@ namespace MKVSubFixer
         private System.Windows.Forms.Button bMkvToolNix;
         private System.Windows.Forms.FolderBrowserDialog fbdMkvToolNix;
         private System.Windows.Forms.ComboBox comboSearchName;
+        private System.Windows.Forms.TextBox tbNewTrackNum;
     }
 }
 

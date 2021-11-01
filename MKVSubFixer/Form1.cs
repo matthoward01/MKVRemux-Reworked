@@ -105,6 +105,24 @@ namespace MKVSubFixer
             string searchLanguage = SearchLanguage.Text.ToLower();
             string searchTrack = SearchTrack.Text.ToLower();
 
+            int newTrackNumber = 0;
+            int oldTrackNumber = 0;
+            bool trackSwap = false;
+            if (tbNewTrackNum.Text.Trim() != "" && SearchTrack.Text.Trim() != "")
+            {
+                try
+                {
+                    newTrackNumber = Int32.Parse(tbNewTrackNum.Text);
+                    oldTrackNumber = Int32.Parse(SearchTrack.Text);
+                    trackSwap = true;
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("A Track Number is not a Number. {0}", ex.Message);
+                }
+            }
+
             Models.Videos videoInfo = new Models.Videos();
             List<Models.Videos> videoList = new List<Models.Videos>();
             Models.Tracks remuxTracks = new Models.Tracks();
@@ -168,6 +186,17 @@ namespace MKVSubFixer
                                 }
                             }
                         }
+                        if (trackSwap)
+                        {
+                            if (Int32.Parse(t.Id) == oldTrackNumber)
+                            {
+                                t.Id = newTrackNumber.ToString();
+                            }
+                            if (Int32.Parse(t.Id) == newTrackNumber)
+                            {
+                                t.Id = oldTrackNumber.ToString();
+                            }
+                        }
                         TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
                     }
                     remuxTracks.Id = t.Id;
@@ -189,6 +218,7 @@ namespace MKVSubFixer
             string cmdLine = "";
             string fullCmdLine = "";
             string outputPath = OutputDir.Text;
+            
             if (!outputPath.EndsWith("\\"))
             {
                 OutputDir.Text += "\\";
