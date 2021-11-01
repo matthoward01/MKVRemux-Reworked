@@ -2,13 +2,21 @@
 Paste an input path
 Paste an output path
 
+This will basically change based on a few possibilities:
+<ul>
+  <li>I need it to do something it can't yet</li>
+  <li>Someone happens to request something or finds a bug</li>
+  <li>I happen to have time to mess with it.</li>
+ </ul>
+
 If you know the following:<br>
 <ul>
   <li>If you want to find a track based on the name and set the language to japanese click the check box next to Search name, and set the dropdown to the language you would like the tracks changed to.</li>
   <li>If you want to find a track based on the language type in the Search Language box, and set the dropdown to the language you would like the tracks changed to.</li>
-  <li>If you want to find a track based on the track number, type the number in the Search track field, and set the dropdown to the language you want to change it to.</li>
+  <li>If you want to find a track based on the track number, type the number in the Search track field, and set the dropdown to the language you want to change it to.  You can also use the text box to the right of the Select Track dropdown to change the track number of a specific track.</li>
 </ul>
 Note: For all the combo boxes if the language you want to change it to it not listed, just type it in the box.
+Note 2: I will tooltip all this...sometime...when I have the free time.
 <hr>
 Planned Changes
 <ul>
