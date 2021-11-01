@@ -15,7 +15,7 @@ If you know the following:<br>
   <li>If you want to find a track based on the language type in the Search Language box, and set the dropdown to the language you would like the tracks changed to.</li>
   <li>If you want to find a track based on the track number, type the number in the Search track field, and set the dropdown to the language you want to change it to.  You can also use the text box to the right of the Select Track dropdown to change the track number of a specific track.</li>
 </ul>
-Note: For all the combo boxes if the language you want to change it to it not listed, just type it in the box.
+Note: For all the combo boxes if the language you want to change it to it not listed, just type it in the box.<br>
 Note 2: I will tooltip all this...sometime...when I have the free time.
 <hr>
 Planned Changes
