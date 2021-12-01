@@ -30,9 +30,9 @@ namespace MKVSubFixer
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.InputDir = new System.Windows.Forms.TextBox();
+            this.tbInputDir = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.OutputDir = new System.Windows.Forms.TextBox();
+            this.tbOutputDir = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.CheckSearch = new System.Windows.Forms.CheckBox();
             this.SearchText = new System.Windows.Forms.TextBox();
@@ -50,6 +50,10 @@ namespace MKVSubFixer
             this.fbdMkvToolNix = new System.Windows.Forms.FolderBrowserDialog();
             this.comboSearchName = new System.Windows.Forms.ComboBox();
             this.tbNewTrackNum = new System.Windows.Forms.TextBox();
+            this.butInputDir = new System.Windows.Forms.Button();
+            this.butOutputDir = new System.Windows.Forms.Button();
+            this.fbdInputDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.fbdOutputDir = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -61,13 +65,13 @@ namespace MKVSubFixer
             this.label1.TabIndex = 0;
             this.label1.Text = "Input Directory";
             // 
-            // InputDir
+            // tbInputDir
             // 
-            this.InputDir.Location = new System.Drawing.Point(102, 43);
-            this.InputDir.Name = "InputDir";
-            this.InputDir.Size = new System.Drawing.Size(581, 20);
-            this.InputDir.TabIndex = 1;
-            this.InputDir.Leave += new System.EventHandler(this.InputDir_Leave);
+            this.tbInputDir.Location = new System.Drawing.Point(102, 43);
+            this.tbInputDir.Name = "tbInputDir";
+            this.tbInputDir.Size = new System.Drawing.Size(554, 20);
+            this.tbInputDir.TabIndex = 1;
+            this.tbInputDir.Leave += new System.EventHandler(this.InputDir_Leave);
             // 
             // label2
             // 
@@ -78,13 +82,13 @@ namespace MKVSubFixer
             this.label2.TabIndex = 2;
             this.label2.Text = "Output Directory";
             // 
-            // OutputDir
+            // tbOutputDir
             // 
-            this.OutputDir.Location = new System.Drawing.Point(102, 74);
-            this.OutputDir.Name = "OutputDir";
-            this.OutputDir.Size = new System.Drawing.Size(581, 20);
-            this.OutputDir.TabIndex = 3;
-            this.OutputDir.Leave += new System.EventHandler(this.OutputDir_Leave);
+            this.tbOutputDir.Location = new System.Drawing.Point(102, 74);
+            this.tbOutputDir.Name = "tbOutputDir";
+            this.tbOutputDir.Size = new System.Drawing.Size(554, 20);
+            this.tbOutputDir.TabIndex = 3;
+            this.tbOutputDir.Leave += new System.EventHandler(this.OutputDir_Leave);
             // 
             // label3
             // 
@@ -234,11 +238,33 @@ namespace MKVSubFixer
             this.tbNewTrackNum.Size = new System.Drawing.Size(29, 20);
             this.tbNewTrackNum.TabIndex = 23;
             // 
+            // butInputDir
+            // 
+            this.butInputDir.Location = new System.Drawing.Point(662, 43);
+            this.butInputDir.Name = "butInputDir";
+            this.butInputDir.Size = new System.Drawing.Size(25, 23);
+            this.butInputDir.TabIndex = 24;
+            this.butInputDir.Text = "...";
+            this.butInputDir.UseVisualStyleBackColor = true;
+            this.butInputDir.Click += new System.EventHandler(this.butInputDir_Click);
+            // 
+            // butOutputDir
+            // 
+            this.butOutputDir.Location = new System.Drawing.Point(662, 72);
+            this.butOutputDir.Name = "butOutputDir";
+            this.butOutputDir.Size = new System.Drawing.Size(25, 23);
+            this.butOutputDir.TabIndex = 25;
+            this.butOutputDir.Text = "...";
+            this.butOutputDir.UseVisualStyleBackColor = true;
+            this.butOutputDir.Click += new System.EventHandler(this.butOutputDir_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 305);
+            this.Controls.Add(this.butOutputDir);
+            this.Controls.Add(this.butInputDir);
             this.Controls.Add(this.tbNewTrackNum);
             this.Controls.Add(this.comboSearchName);
             this.Controls.Add(this.bMkvToolNix);
@@ -255,9 +281,9 @@ namespace MKVSubFixer
             this.Controls.Add(this.SearchText);
             this.Controls.Add(this.CheckSearch);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.OutputDir);
+            this.Controls.Add(this.tbOutputDir);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.InputDir);
+            this.Controls.Add(this.tbInputDir);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Mkv Remux";
@@ -269,9 +295,9 @@ namespace MKVSubFixer
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox InputDir;
+        private System.Windows.Forms.TextBox tbInputDir;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox OutputDir;
+        private System.Windows.Forms.TextBox tbOutputDir;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox CheckSearch;
         private System.Windows.Forms.TextBox SearchText;
@@ -289,6 +315,10 @@ namespace MKVSubFixer
         private System.Windows.Forms.FolderBrowserDialog fbdMkvToolNix;
         private System.Windows.Forms.ComboBox comboSearchName;
         private System.Windows.Forms.TextBox tbNewTrackNum;
+        private System.Windows.Forms.Button butInputDir;
+        private System.Windows.Forms.Button butOutputDir;
+        private System.Windows.Forms.FolderBrowserDialog fbdInputDir;
+        private System.Windows.Forms.FolderBrowserDialog fbdOutputDir;
     }
 }
 

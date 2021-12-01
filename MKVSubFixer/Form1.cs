@@ -50,7 +50,14 @@ namespace MKVSubFixer
 
         private void bMkvToolNix_Click(object sender, EventArgs e)
         {
-            fbdMkvToolNix.SelectedPath = Settings.Default.LastFolder;  
+            if (Directory.Exists(Settings.Default.MkvToolNixPath))
+            {
+                fbdMkvToolNix.SelectedPath = Settings.Default.MkvToolNixPath;
+            }
+            else
+            {
+                fbdMkvToolNix.SelectedPath = Settings.Default.LastFolder;
+            }
 
             if (fbdMkvToolNix.ShowDialog() == DialogResult.OK)
             {                
@@ -66,7 +73,7 @@ namespace MKVSubFixer
 
         private void OutputDir_Leave(object sender, EventArgs e)
         {
-            if (OutputDir.Text != "")
+            if (tbOutputDir.Text != "")
             {
                 buttonRemux.Enabled = true;
             }
@@ -78,7 +85,7 @@ namespace MKVSubFixer
 
         private void InputDir_Leave(object sender, EventArgs e)
         {
-            if (InputDir.Text != "" && Directory.Exists(InputDir.Text))
+            if (tbInputDir.Text != "" && Directory.Exists(tbInputDir.Text))
             {                
                 buttonPrecheck.Enabled = true;
             }
@@ -95,10 +102,10 @@ namespace MKVSubFixer
             remuxVideo = new Models.Videos();
             TrackList.Items.Clear();
             TrackListRemux.Items.Clear();
-            string inputDir = InputDir.Text;
+            string inputDir = tbInputDir.Text;
             if (!inputDir.EndsWith("\\"))
             {
-                InputDir.Text += "\\";
+                tbInputDir.Text += "\\";
                 inputDir += "\\";
             }
             string search = SearchText.Text.ToLower();
@@ -229,21 +236,21 @@ namespace MKVSubFixer
         {
             string cmdLine = "";
             string fullCmdLine = "";
-            string outputPath = OutputDir.Text;
+            string outputPath = tbOutputDir.Text;
             
             if (!outputPath.EndsWith("\\"))
             {
-                OutputDir.Text += "\\";
+                tbOutputDir.Text += "\\";
                 outputPath += "\\";
             }
             if (outputPath != "")
             {
                 Directory.CreateDirectory(outputPath);
             }
-            string inputPath = InputDir.Text;
+            string inputPath = tbInputDir.Text;
             if (!inputPath.EndsWith("\\"))
             {
-                InputDir.Text += "\\";
+                tbInputDir.Text += "\\";
                 inputPath += "\\";
             }
             foreach (Models.Videos v in remuxList)
@@ -274,6 +281,53 @@ namespace MKVSubFixer
             using (System.IO.StreamWriter batchFile = new System.IO.StreamWriter(Path.Combine(outputPath, "Batch.bat"), true))
             {
                 batchFile.WriteLine(cmdLine);
+            }
+        }
+
+        private void butInputDir_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(tbInputDir.Text))
+            {
+                fbdInputDir.SelectedPath = tbInputDir.Text;
+            }
+            else
+            {
+                fbdInputDir.SelectedPath = Settings.Default.LastFolder;
+            }
+
+            if (fbdInputDir.ShowDialog() == DialogResult.OK)
+            {
+                Settings.Default.LastFolder = fbdInputDir.SelectedPath;
+                tbInputDir.Text = fbdInputDir.SelectedPath;
+                if (!tbInputDir.Text.EndsWith("\\"))
+                {
+                    tbInputDir.Text += "\\";
+                }
+
+                Settings.Default.Save();
+            }
+        }
+
+        private void butOutputDir_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(tbOutputDir.Text))
+            {
+                fbdOutputDir.SelectedPath = tbOutputDir.Text;
+            }
+            else
+            {
+                fbdOutputDir.SelectedPath = Settings.Default.LastFolder;
+            }
+
+            if (fbdOutputDir.ShowDialog() == DialogResult.OK)
+            {
+                Settings.Default.LastFolder = fbdOutputDir.SelectedPath;
+                tbOutputDir.Text = fbdOutputDir.SelectedPath;
+                if (!tbOutputDir.Text.EndsWith("\\"))
+                {
+                    tbOutputDir.Text += "\\";
+                }
+                Settings.Default.Save();
             }
         }
     }
