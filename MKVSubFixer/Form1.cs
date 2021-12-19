@@ -303,7 +303,10 @@ namespace MKVSubFixer
                 {
                     tbInputDir.Text += "\\";
                 }
-
+                if (Directory.Exists(tbInputDir.Text))
+                {
+                    buttonPrecheck.Enabled = true;
+                }
                 Settings.Default.Save();
             }
         }
@@ -326,6 +329,10 @@ namespace MKVSubFixer
                 if (!tbOutputDir.Text.EndsWith("\\"))
                 {
                     tbOutputDir.Text += "\\";
+                }
+                if (Directory.Exists(tbOutputDir.Text))
+                {
+                    buttonRemux.Enabled = true;
                 }
                 Settings.Default.Save();
             }
