@@ -20,7 +20,7 @@ Note 2: I will tooltip all this...sometime...when I have the free time.
 <hr>
 Planned Changes
 <ul>
-  <li>Folder Chooser buttons for Input and Output Directoryies</li>
+  <li><s>Folder Chooser buttons for Input and Output Directoryies</s></li>
   <li>Audio Language change support</li>
   <li>Better Error Handling</li>
   <li>Run conversion in program instead of clicking a batch it makes</li>
