@@ -9,7 +9,7 @@ This will basically change based on a few possibilities:
   <li>I happen to have time to mess with it.</li>
  </ul>
 
-If you know the following:<br>
+How to use:<br>
 <ul>
   <li>If you want to find a track based on the name and set the language to japanese click the check box next to Search name, and set the dropdown to the language you would like the tracks changed to.</li>
   <li>If you want to find a track based on the language type in the Search Language box, and set the dropdown to the language you would like the tracks changed to.</li>
