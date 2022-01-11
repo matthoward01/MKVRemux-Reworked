@@ -17,6 +17,7 @@ namespace MKVSubFixer
     {
         Models.Videos remuxVideo = new Models.Videos();
         List<Models.Videos> remuxList = new List<Models.Videos>();
+        List<Models.Videos> videoList = new List<Models.Videos>();
         string mkvmergePath = Settings.Default.MkvToolNixPath;
 
         public Form1()
@@ -131,26 +132,37 @@ namespace MKVSubFixer
             }
 
             Models.Videos videoInfo = new Models.Videos();
-            List<Models.Videos> videoList = new List<Models.Videos>();
+            
             Models.Tracks remuxTracks = new Models.Tracks();
             List<Models.Tracks> remuxTrackList = new List<Models.Tracks>();
-            string[] inputFileList = Directory.GetFiles(inputDir, "*.mkv");
-            foreach (string f in inputFileList)
+            string[] inputFileList = { };
+            if (Settings.Default.IncludeSubDir)
             {
-                videoInfo = trackInfo.GetTrackInfo(f);
-                videoList.Add(videoInfo);
+                inputFileList = Directory.GetFiles(inputDir, "*.mkv", SearchOption.AllDirectories);
             }
+            else
+            {
+                inputFileList = Directory.GetFiles(inputDir, "*.mkv");
+            }
+            object[] workArgs = { inputFileList };
+            backgroundWorker1.RunWorkerAsync(workArgs);
+            /*foreach (string f in inputFileList)
+            {
+                //videoInfo = trackInfo.GetTrackInfo(f);
+                
+                //videoList.Add(videoInfo);
+            }*/
             foreach (Models.Videos v in videoList)
             {
                 remuxTrackList = new List<Models.Tracks>();
-                TrackList.Items.Add(v.Name);
+                /*TrackList.Items.Add(v.Name);
                 foreach (Models.Tracks t in v.TrackList)
                 {
                     if (t.Type == "subtitles")
                     {
                         TrackList.Items.Add(t.Id + "||" + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
                     }
-                }
+                }*/
                 //TrackListRemux.Items.Add(v.Name);
                 foreach (Models.Tracks t in v.TrackList)
                 {
@@ -237,6 +249,7 @@ namespace MKVSubFixer
             string cmdLine = "";
             string fullCmdLine = "";
             string outputPath = tbOutputDir.Text;
+            List<string> remuxListBatch = new List<string>();
             
             if (!outputPath.EndsWith("\\"))
             {
@@ -257,25 +270,37 @@ namespace MKVSubFixer
             {
                 int trackCount = v.TrackList.Count();
 
+                string singleCmdLine = "";
+
                 cmdLine += "\"C:\\Program Files\\MKVToolNix\\mkvmerge.exe\" -o \"" + outputPath + v.Name + "\"";
+                singleCmdLine += "\"C:\\Program Files\\MKVToolNix\\mkvmerge.exe\" -o \"" + outputPath + v.Name + "\"";
                 foreach (Models.Tracks t in v.TrackList)
                 {
                     cmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
+                    singleCmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
                     cmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
+                    singleCmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
                 }
                 cmdLine += " \"(\" \"" + inputPath + v.Name + "\" \")\"";
+                singleCmdLine += " \"(\" \"" + inputPath + v.Name + "\" \")\"";
                 cmdLine += " --track-order ";
+                singleCmdLine += " --track-order ";
                 int count = 1;
                 foreach (Models.Tracks t in v.TrackList)
                 {
                     cmdLine += "0:" + (Int32.Parse(t.Id) - 1);
+                    singleCmdLine += "0:" + (Int32.Parse(t.Id) - 1);
                     if (count != v.TrackList.Count)
                     {
                         cmdLine += ",";
+                        singleCmdLine += ",";
                     }
                     count++;
-                }
-                cmdLine += "\"\r\n\r\n\n";
+                }                
+                cmdLine += "\"";
+                singleCmdLine += "\"";
+                remuxListBatch.Add(singleCmdLine);
+                cmdLine += "\r\n\r\n\n";
 
             }
             using (System.IO.StreamWriter batchFile = new System.IO.StreamWriter(Path.Combine(outputPath, "Batch.bat"), true))
@@ -336,6 +361,49 @@ namespace MKVSubFixer
                 }
                 Settings.Default.Save();
             }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            
+            TrackInfo trackInfo = new TrackInfo();
+            object[] arg = e.Argument as object[];
+            string[] input = (string[])arg[0];
+            Models.Videos videoInfo = new Models.Videos();
+            foreach (string f in input)
+            {
+                videoInfo = trackInfo.GetTrackInfo(f);
+                videoList.Add(videoInfo);
+                Invoke(new Action(() =>
+                {
+                    TrackList.Items.Add(videoInfo.Name);
+                }));
+                foreach (Models.Tracks t in videoInfo.TrackList)
+                {
+                    if (t.Type == "subtitles")
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            TrackList.Items.Add(t.Id + "||" + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
+                        }));
+                    }
+                }
+            }
+            
+        }
+
+        private void checkSubDir_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkSubDir.Checked == true)
+            {
+                Settings.Default.IncludeSubDir = true;
+            }
+            else
+            {
+                Settings.Default.IncludeSubDir = false;
+
+            }
+            Settings.Default.Save();
         }
     }
 }

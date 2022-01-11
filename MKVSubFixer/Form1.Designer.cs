@@ -54,6 +54,8 @@ namespace MKVSubFixer
             this.butOutputDir = new System.Windows.Forms.Button();
             this.fbdInputDir = new System.Windows.Forms.FolderBrowserDialog();
             this.fbdOutputDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.checkSubDir = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -258,11 +260,27 @@ namespace MKVSubFixer
             this.butOutputDir.UseVisualStyleBackColor = true;
             this.butOutputDir.Click += new System.EventHandler(this.butOutputDir_Click);
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // checkSubDir
+            // 
+            this.checkSubDir.AutoSize = true;
+            this.checkSubDir.Location = new System.Drawing.Point(12, 12);
+            this.checkSubDir.Name = "checkSubDir";
+            this.checkSubDir.Size = new System.Drawing.Size(136, 17);
+            this.checkSubDir.TabIndex = 26;
+            this.checkSubDir.Text = "Include Sub Directories";
+            this.checkSubDir.UseVisualStyleBackColor = true;
+            this.checkSubDir.CheckedChanged += new System.EventHandler(this.checkSubDir_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 305);
+            this.Controls.Add(this.checkSubDir);
             this.Controls.Add(this.butOutputDir);
             this.Controls.Add(this.butInputDir);
             this.Controls.Add(this.tbNewTrackNum);
@@ -319,6 +337,8 @@ namespace MKVSubFixer
         private System.Windows.Forms.Button butOutputDir;
         private System.Windows.Forms.FolderBrowserDialog fbdInputDir;
         private System.Windows.Forms.FolderBrowserDialog fbdOutputDir;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.CheckBox checkSubDir;
     }
 }
 

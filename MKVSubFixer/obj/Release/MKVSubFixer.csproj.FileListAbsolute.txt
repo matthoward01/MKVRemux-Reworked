@@ -7,3 +7,4 @@ C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Releas
 C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Release\MKVSubFixer.csproj.CoreCompileInputs.cache
 C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Release\MKVSubFixer.exe
 C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Release\MKVSubFixer.pdb
+C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Release\MKVSubFixer.csproj.AssemblyReference.cache
