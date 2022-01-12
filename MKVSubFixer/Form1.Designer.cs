@@ -44,7 +44,6 @@ namespace MKVSubFixer
             this.label5 = new System.Windows.Forms.Label();
             this.buttonPrecheck = new System.Windows.Forms.Button();
             this.buttonRemux = new System.Windows.Forms.Button();
-            this.TrackListRemux = new System.Windows.Forms.ListBox();
             this.TrackList = new System.Windows.Forms.ListBox();
             this.bMkvToolNix = new System.Windows.Forms.Button();
             this.fbdMkvToolNix = new System.Windows.Forms.FolderBrowserDialog();
@@ -56,6 +55,8 @@ namespace MKVSubFixer
             this.fbdOutputDir = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.checkSubDir = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -178,7 +179,7 @@ namespace MKVSubFixer
             this.buttonPrecheck.Enabled = false;
             this.buttonPrecheck.Location = new System.Drawing.Point(12, 267);
             this.buttonPrecheck.Name = "buttonPrecheck";
-            this.buttonPrecheck.Size = new System.Drawing.Size(330, 23);
+            this.buttonPrecheck.Size = new System.Drawing.Size(262, 23);
             this.buttonPrecheck.TabIndex = 15;
             this.buttonPrecheck.Text = "PreCheck";
             this.buttonPrecheck.UseVisualStyleBackColor = true;
@@ -187,33 +188,25 @@ namespace MKVSubFixer
             // buttonRemux
             // 
             this.buttonRemux.Enabled = false;
-            this.buttonRemux.Location = new System.Drawing.Point(353, 267);
+            this.buttonRemux.Location = new System.Drawing.Point(280, 267);
             this.buttonRemux.Name = "buttonRemux";
-            this.buttonRemux.Size = new System.Drawing.Size(330, 23);
+            this.buttonRemux.Size = new System.Drawing.Size(246, 23);
             this.buttonRemux.TabIndex = 16;
             this.buttonRemux.Text = "Remux";
             this.buttonRemux.UseVisualStyleBackColor = true;
             this.buttonRemux.Click += new System.EventHandler(this.buttonRemux_Click);
-            // 
-            // TrackListRemux
-            // 
-            this.TrackListRemux.FormattingEnabled = true;
-            this.TrackListRemux.Location = new System.Drawing.Point(353, 140);
-            this.TrackListRemux.Name = "TrackListRemux";
-            this.TrackListRemux.Size = new System.Drawing.Size(330, 121);
-            this.TrackListRemux.TabIndex = 20;
             // 
             // TrackList
             // 
             this.TrackList.FormattingEnabled = true;
             this.TrackList.Location = new System.Drawing.Point(12, 140);
             this.TrackList.Name = "TrackList";
-            this.TrackList.Size = new System.Drawing.Size(330, 121);
+            this.TrackList.Size = new System.Drawing.Size(514, 121);
             this.TrackList.TabIndex = 19;
             // 
             // bMkvToolNix
             // 
-            this.bMkvToolNix.Location = new System.Drawing.Point(608, 12);
+            this.bMkvToolNix.Location = new System.Drawing.Point(612, 12);
             this.bMkvToolNix.Name = "bMkvToolNix";
             this.bMkvToolNix.Size = new System.Drawing.Size(75, 23);
             this.bMkvToolNix.TabIndex = 21;
@@ -275,18 +268,28 @@ namespace MKVSubFixer
             this.checkSubDir.UseVisualStyleBackColor = true;
             this.checkSubDir.CheckedChanged += new System.EventHandler(this.checkSubDir_CheckedChanged);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MKVSubFixer.Properties.Resources.processing2;
+            this.pictureBox1.Location = new System.Drawing.Point(537, 140);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(150, 150);
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 305);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.checkSubDir);
             this.Controls.Add(this.butOutputDir);
             this.Controls.Add(this.butInputDir);
             this.Controls.Add(this.tbNewTrackNum);
             this.Controls.Add(this.comboSearchName);
             this.Controls.Add(this.bMkvToolNix);
-            this.Controls.Add(this.TrackListRemux);
             this.Controls.Add(this.TrackList);
             this.Controls.Add(this.buttonRemux);
             this.Controls.Add(this.buttonPrecheck);
@@ -305,6 +308,7 @@ namespace MKVSubFixer
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Mkv Remux";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,7 +331,6 @@ namespace MKVSubFixer
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonPrecheck;
         private System.Windows.Forms.Button buttonRemux;
-        private System.Windows.Forms.ListBox TrackListRemux;
         private System.Windows.Forms.ListBox TrackList;
         private System.Windows.Forms.Button bMkvToolNix;
         private System.Windows.Forms.FolderBrowserDialog fbdMkvToolNix;
@@ -339,6 +342,7 @@ namespace MKVSubFixer
         private System.Windows.Forms.FolderBrowserDialog fbdOutputDir;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.CheckBox checkSubDir;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

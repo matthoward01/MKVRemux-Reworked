@@ -97,25 +97,18 @@ namespace MKVSubFixer
         }
 
         private void PreCheck()
-        {
-            TrackInfo trackInfo = new TrackInfo();
-            remuxList.Clear();
-            remuxVideo = new Models.Videos();
-            TrackList.Items.Clear();
-            TrackListRemux.Items.Clear();
+        {                        
             string inputDir = tbInputDir.Text;
+            int newTrackNumber = 0;
+            int oldTrackNumber = 0;
+            bool trackSwap = false;
+
             if (!inputDir.EndsWith("\\"))
             {
                 tbInputDir.Text += "\\";
                 inputDir += "\\";
-            }
-            string search = SearchText.Text.ToLower();
-            string searchLanguage = SearchLanguage.Text.ToLower();
-            string searchTrack = SearchTrack.Text.ToLower();
+            }            
 
-            int newTrackNumber = 0;
-            int oldTrackNumber = 0;
-            bool trackSwap = false;
             if (tbNewTrackNum.Text.Trim() != "" && SearchTrack.Text.Trim() != "")
             {
                 try
@@ -130,11 +123,7 @@ namespace MKVSubFixer
                     MessageBox.Show("A Track Number is not a Number. {0}", ex.Message);
                 }
             }
-
-            Models.Videos videoInfo = new Models.Videos();
             
-            Models.Tracks remuxTracks = new Models.Tracks();
-            List<Models.Tracks> remuxTrackList = new List<Models.Tracks>();
             string[] inputFileList = { };
             if (Settings.Default.IncludeSubDir)
             {
@@ -144,26 +133,27 @@ namespace MKVSubFixer
             {
                 inputFileList = Directory.GetFiles(inputDir, "*.mkv");
             }
-            object[] workArgs = { inputFileList };
+
+            //Start Precheck
+            object[] workArgs = {
+                inputFileList,
+                newTrackNumber,
+                oldTrackNumber,
+                trackSwap,
+                CheckSearch.Checked,
+                comboSearchName.Text.ToLower(),
+                SearchLanguage.Text.ToLower(),
+                SearchTrack.Text.ToLower(),
+                comboTrack.Text.ToLower(),
+                SearchText.Text.ToLower(),
+                ComboLanguage.Text.ToLower()
+        };
             backgroundWorker1.RunWorkerAsync(workArgs);
-            /*foreach (string f in inputFileList)
-            {
-                //videoInfo = trackInfo.GetTrackInfo(f);
-                
-                //videoList.Add(videoInfo);
-            }*/
-            foreach (Models.Videos v in videoList)
+
+            /*foreach (Models.Videos v in videoList)
             {
                 remuxTrackList = new List<Models.Tracks>();
-                /*TrackList.Items.Add(v.Name);
-                foreach (Models.Tracks t in v.TrackList)
-                {
-                    if (t.Type == "subtitles")
-                    {
-                        TrackList.Items.Add(t.Id + "||" + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
-                    }
-                }*/
-                //TrackListRemux.Items.Add(v.Name);
+
                 foreach (Models.Tracks t in v.TrackList)
                 {
                     if (t.Type == "subtitles")
@@ -216,7 +206,6 @@ namespace MKVSubFixer
                                 t.Id = oldTrackNumber.ToString();
                             }
                         }
-                        //TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
                     }
                     remuxTracks.Id = t.Id;
                     remuxTracks.Type = t.Type;
@@ -230,8 +219,8 @@ namespace MKVSubFixer
                 remuxVideo.TrackList = remuxTrackList.OrderBy(x => x.Id).ToList();
                 remuxList.Add(remuxVideo);
                 remuxVideo = new Models.Videos();                
-            }
-            foreach (Models.Videos v in remuxList)
+            }*/
+            /*foreach (Models.Videos v in remuxList)
             {
                 TrackListRemux.Items.Add(v.Name);
                 foreach (Models.Tracks t in v.TrackList)
@@ -239,10 +228,9 @@ namespace MKVSubFixer
                     if (t.Type == "subtitles")
                     {
                         TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
-
                     }
                 }
-            }
+            }*/
         }
         private void Remux()
         {
@@ -365,11 +353,34 @@ namespace MKVSubFixer
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+            Invoke(new Action(() =>
+            { 
+                buttonPrecheck.Enabled = false;
+                pictureBox1.Visible = true;
+                TrackList.Items.Clear();
+            }));
+
             TrackInfo trackInfo = new TrackInfo();
+            Models.Videos videoInfo = new Models.Videos();
+            Models.Tracks remuxTracks = new Models.Tracks();
+            List<Models.Tracks> remuxTrackList = new List<Models.Tracks>();
+
+            remuxVideo = new Models.Videos();
+            remuxList = new List<Models.Videos>();   
+
             object[] arg = e.Argument as object[];
             string[] input = (string[])arg[0];
-            Models.Videos videoInfo = new Models.Videos();
+            int nTrackNumber = (int)arg[1];
+            int oTrackNumber = (int)arg[2];
+            bool swap = (bool)arg[3];
+            bool checkSearchCheckedBGW = (bool)arg[4];
+            string comboSearchNameBGW = (string)arg[5];
+            string searchLanguageBGW = (string)arg[6];
+            string searchTrackBGW = (string)arg[7];
+            string comboTrackBGW = (string)arg[8];
+            string searchBGW = (string)arg[9];
+            string comboLanguageBGW = (string)arg[10];
+
             foreach (string f in input)
             {
                 videoInfo = trackInfo.GetTrackInfo(f);
@@ -389,7 +400,103 @@ namespace MKVSubFixer
                     }
                 }
             }
-            
+            foreach (Models.Videos v in videoList)
+            {
+                remuxTrackList = new List<Models.Tracks>();
+
+                foreach (Models.Tracks t in v.TrackList)
+                {
+                    if (t.Type == "subtitles")
+                    {
+                        if (checkSearchCheckedBGW == true && comboSearchNameBGW != "")
+                        {
+                            if ((searchBGW == null) && (t.Name == null))
+                            {
+                                t.Language = comboSearchNameBGW;
+                            }
+                            else if (t.Name == null)
+                            {
+                                t.Language = comboSearchNameBGW;
+                            }
+                            else if (t.Name.ToLower().Contains(searchBGW))
+                            {
+                                t.Language = comboSearchNameBGW;
+                            }
+                        }
+                        if (searchLanguageBGW != "")
+                        {
+                            if (t.Language.ToLower().Contains(searchLanguageBGW))
+                            {
+                                t.Language = comboLanguageBGW;
+                                if (t.Name == null)
+                                {
+                                    t.Name = comboLanguageBGW;
+                                }
+                            }
+                        }
+                        if (searchTrackBGW != "")
+                        {
+                            if (t.Id.ToLower().Contains(searchTrackBGW))
+                            {
+                                t.Language = comboTrackBGW;
+                                if (t.Name == null)
+                                {
+                                    t.Name = comboTrackBGW;
+                                }
+                            }
+                        }
+                        if (swap)
+                        {
+                            if (Int32.Parse(t.Id) == oTrackNumber)
+                            {
+                                t.Id = nTrackNumber.ToString();
+                            }
+                            else if (Int32.Parse(t.Id) == nTrackNumber)
+                            {
+                                t.Id = oTrackNumber.ToString();
+                            }
+                        }
+                    }
+                    remuxTracks.Id = t.Id;
+                    remuxTracks.Type = t.Type;
+                    remuxTracks.Language = t.Language;
+                    remuxTracks.Name = t.Name;
+                    remuxTracks.Codec = t.Codec;
+                    remuxTrackList.Add(remuxTracks);
+                    remuxTracks = new Models.Tracks();
+                }
+                remuxVideo.Name = v.Name;
+                remuxVideo.TrackList = remuxTrackList.OrderBy(x => x.Id).ToList();
+                remuxList.Add(remuxVideo);
+                remuxVideo = new Models.Videos();
+                
+            }
+            Invoke(new Action(() =>
+            {
+                TrackList.Items.Clear();
+            }));
+                foreach (Models.Videos v in remuxList)
+            {
+                Invoke(new Action(() =>
+                {
+                    TrackList.Items.Add(v.Name);
+                }));
+                foreach (Models.Tracks t in v.TrackList)
+                {
+                    if (t.Type == "subtitles")
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            TrackList.Items.Add(t.Id + " || " + t.Type + " || " + t.Language + " || " + t.Name + " || " + t.Codec);
+                        }));
+                    }
+                }
+            }
+            Invoke(new Action(() =>
+            {
+                buttonPrecheck.Enabled = true;
+                pictureBox1.Visible = false;
+            }));
         }
 
         private void checkSubDir_CheckedChanged(object sender, EventArgs e)

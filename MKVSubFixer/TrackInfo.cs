@@ -79,7 +79,7 @@ namespace MKVSubFixer
                                 break;                            
                         }
                     }
-                    else if (nextLine.Contains("Attachments") || nextLine.Contains("Tags") || nextLine.Contains("Chapters") || nextLine.Contains("Clusters"))
+                    else if (nextLine.Contains("Attachments") || nextLine.Contains("Tags") || nextLine.Contains("Chapters") || nextLine.Contains("Cluster"))
                     {
                         if (tracks.Language == null)
                         {
