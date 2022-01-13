@@ -147,95 +147,12 @@ namespace MKVSubFixer
                 comboTrack.Text.ToLower(),
                 SearchText.Text.ToLower(),
                 ComboLanguage.Text.ToLower()
-        };
-            backgroundWorker1.RunWorkerAsync(workArgs);
-
-            /*foreach (Models.Videos v in videoList)
-            {
-                remuxTrackList = new List<Models.Tracks>();
-
-                foreach (Models.Tracks t in v.TrackList)
-                {
-                    if (t.Type == "subtitles")
-                    {
-                        if (CheckSearch.Checked == true && comboSearchName.Text != "")
-                        {
-                            if ((search == null) && (t.Name == null))
-                            {
-                                t.Language = comboSearchName.Text;
-                            }
-                            else if (t.Name == null)
-                            {
-                                t.Language = comboSearchName.Text;
-                            }
-                            else if (t.Name.ToLower().Contains(search))
-                            {
-                                t.Language = comboSearchName.Text;
-                            }
-                        }
-                        if (searchLanguage != "")
-                        {
-                            if (t.Language.ToLower().Contains(searchLanguage))
-                            {
-                                t.Language = ComboLanguage.Text;
-                                if (t.Name == null)
-                                {
-                                    t.Name = ComboLanguage.Text;
-                                }
-                            }
-                        }
-                        if (searchTrack != "")
-                        {
-                            if (t.Id.ToLower().Contains(searchTrack))
-                            {
-                                t.Language = comboTrack.Text;
-                                if (t.Name == null)
-                                {
-                                    t.Name = comboTrack.Text;
-                                }
-                            }
-                        }
-                        if (trackSwap)
-                        {
-                            if (Int32.Parse(t.Id) == oldTrackNumber)
-                            {
-                                t.Id = newTrackNumber.ToString();
-                            }
-                            else if (Int32.Parse(t.Id) == newTrackNumber)
-                            {
-                                t.Id = oldTrackNumber.ToString();
-                            }
-                        }
-                    }
-                    remuxTracks.Id = t.Id;
-                    remuxTracks.Type = t.Type;
-                    remuxTracks.Language = t.Language;
-                    remuxTracks.Name = t.Name;
-                    remuxTracks.Codec = t.Codec;
-                    remuxTrackList.Add(remuxTracks);
-                    remuxTracks = new Models.Tracks();
-                }                
-                remuxVideo.Name = v.Name;
-                remuxVideo.TrackList = remuxTrackList.OrderBy(x => x.Id).ToList();
-                remuxList.Add(remuxVideo);
-                remuxVideo = new Models.Videos();                
-            }*/
-            /*foreach (Models.Videos v in remuxList)
-            {
-                TrackListRemux.Items.Add(v.Name);
-                foreach (Models.Tracks t in v.TrackList)
-                {
-                    if (t.Type == "subtitles")
-                    {
-                        TrackListRemux.Items.Add(t.Id + " || " + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
-                    }
-                }
-            }*/
+            };
+            backgroundWorker1.RunWorkerAsync(workArgs);            
         }
         private void Remux()
         {
             string cmdLine = "";
-            string fullCmdLine = "";
             string outputPath = tbOutputDir.Text;
             List<string> remuxListBatch = new List<string>();
             
@@ -395,7 +312,7 @@ namespace MKVSubFixer
                     {
                         Invoke(new Action(() =>
                         {
-                            TrackList.Items.Add(t.Id + "||" + t.Type + "||" + t.Language + "||" + t.Name + "||" + t.Codec);
+                            TrackList.Items.Add(t.Id + " || " + t.Type + " || " + t.Language + " || " + t.Name + " || " + t.Codec);
                         }));
                     }
                 }
