@@ -284,6 +284,7 @@ namespace MKVSubFixer
 
             remuxVideo = new Models.Videos();
             remuxList = new List<Models.Videos>();   
+            videoList.Clear();
 
             object[] arg = e.Argument as object[];
             string[] input = (string[])arg[0];
