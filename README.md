@@ -8,8 +8,16 @@ This will basically change based on a few possibilities:
 
 <h2>How to use:<br></h2>
 <ul>
+  <li>Make sure you have MkvToolNix installed - https://mkvtoolnix.download/</li>  
   <li>Choose an input path</li>
-  <li>Choose an output path</li>
+  <li>The output path will autofill based on the input path, or you can override it with your own path.</li>
+  <li>There are check boxes for:
+    <ul>
+      <li>Include Sub Directories - will scan subdirectories under the input path for mkv files also</li>
+      <li>Keep Batch - This will keep the batch file after auto processing.</li>
+      <li>Batch Only - This will make a batch only and not auto process. This can be useful for making a large batch that you can either run separatly or uncheck this on the last set you wish to batch to run them all automatically.</li>
+    </ul>
+  </li>
   <li>Click Precheck</li>
   <ul>
      <li>If you want to find a track based on the name and set the language to japanese click the check box next to Search name, and set the dropdown to the language you would like the tracks changed to.</li>
@@ -17,9 +25,7 @@ This will basically change based on a few possibilities:
      <li>If you want to find a track based on the track number, type the number in the Search track field, and set the dropdown to the language you want to change it to.  You can also use the text box to the right of the Select Track dropdown to change the track number of a specific track.</li>
   </ul>
   <li>Click Precheck Again after you do the above.  In the list, you should see you changes applied after it processes.</li>
-  <li>If everything looks good, click Remux. This will create a batch file under the output folder.</li>
-  <li>Double click the .bat file that was created under the output folder. (you can also open this file if you want to see what it is intending to do)</li>
-  <li>After the .bat file is doubleclicked you will see a cmd window pop up and you can see the progress of the remuxing there. (I plan to internalize this process into the program sometime, but it is not implemented yet.</li>
+  <li>If everything looks good, click Remux.</li>
 </ul>
 
 Note: For all the combo boxes if the language you want to change it to it not listed, just type it in the box.<br>
@@ -31,14 +37,12 @@ Planned Changes
   <li><s>Folder Chooser buttons for Input and Output Directoryies</s></li>
   <li>Audio Language change support</li>
   <li><s>Better Error Handling</s></li>
-  <li>Run conversion in program instead of clicking a batch it makes</li>
+  <li><s>Run conversion in program instead of clicking a batch it makes</s></li>
 </ul>
 <hr>
 <p>
 If you don't know the current tracks and such, you can click the precheck button.
 This will give you a list of all the mkv files in the input directory along with their track info for sub tracks (This may change to include audio later)
+Pick the change you want to make and click Precheck again.
 
-Once you have figured out the combination of things you need to do to set the tracks the way you want, click remux.
-Currently this created a batch file in the output directory that you need to run manually.
-
-Depending on how the tracks are named or not named, you may have to process the files a couple times.</p>
+Once you have figured out the combination of things you need to do to set the tracks the way you want, click remux.</p>
