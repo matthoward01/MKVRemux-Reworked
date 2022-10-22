@@ -8,3 +8,15 @@ C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Debug\
 C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.exe
 C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.pdb
 C:\Users\Matt\Source\Repos\matthoward01\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.csproj.AssemblyReference.cache
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\bin\Debug\MKVSubFixer.exe.config
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\bin\Debug\MKVSubFixer.exe
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\bin\Debug\MKVSubFixer.pdb
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.csproj.AssemblyReference.cache
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.csproj.SuggestedBindingRedirects.cache
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.CommandLine.resources
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.Form1.resources
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.Properties.Resources.resources
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.csproj.GenerateResource.cache
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.csproj.CoreCompileInputs.cache
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.exe
+C:\Users\Matt\Source\Repos\MKVRemux-Reworked\MKVSubFixer\obj\Debug\MKVSubFixer.pdb

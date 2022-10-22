@@ -56,6 +56,8 @@ namespace MKVSubFixer
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.checkSubDir = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.cbKeepBatch = new System.Windows.Forms.CheckBox();
+            this.cbBatchOnly = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,8 +92,7 @@ namespace MKVSubFixer
             this.tbOutputDir.Location = new System.Drawing.Point(102, 74);
             this.tbOutputDir.Name = "tbOutputDir";
             this.tbOutputDir.Size = new System.Drawing.Size(554, 20);
-            this.tbOutputDir.TabIndex = 3;
-            this.tbOutputDir.Leave += new System.EventHandler(this.OutputDir_Leave);
+            this.tbOutputDir.TabIndex = 2;
             // 
             // label3
             // 
@@ -108,7 +109,7 @@ namespace MKVSubFixer
             this.CheckSearch.Location = new System.Drawing.Point(13, 110);
             this.CheckSearch.Name = "CheckSearch";
             this.CheckSearch.Size = new System.Drawing.Size(15, 14);
-            this.CheckSearch.TabIndex = 6;
+            this.CheckSearch.TabIndex = 3;
             this.CheckSearch.UseVisualStyleBackColor = true;
             this.CheckSearch.CheckedChanged += new System.EventHandler(this.CheckSearch_CheckedChanged);
             // 
@@ -118,14 +119,14 @@ namespace MKVSubFixer
             this.SearchText.Location = new System.Drawing.Point(102, 107);
             this.SearchText.Name = "SearchText";
             this.SearchText.Size = new System.Drawing.Size(96, 20);
-            this.SearchText.TabIndex = 7;
+            this.SearchText.TabIndex = 4;
             // 
             // SearchLanguage
             // 
             this.SearchLanguage.Location = new System.Drawing.Point(339, 107);
             this.SearchLanguage.Name = "SearchLanguage";
             this.SearchLanguage.Size = new System.Drawing.Size(44, 20);
-            this.SearchLanguage.TabIndex = 9;
+            this.SearchLanguage.TabIndex = 6;
             // 
             // label4
             // 
@@ -145,7 +146,7 @@ namespace MKVSubFixer
             this.ComboLanguage.Location = new System.Drawing.Point(389, 106);
             this.ComboLanguage.Name = "ComboLanguage";
             this.ComboLanguage.Size = new System.Drawing.Size(56, 21);
-            this.ComboLanguage.TabIndex = 10;
+            this.ComboLanguage.TabIndex = 7;
             // 
             // comboTrack
             // 
@@ -156,14 +157,14 @@ namespace MKVSubFixer
             this.comboTrack.Location = new System.Drawing.Point(567, 107);
             this.comboTrack.Name = "comboTrack";
             this.comboTrack.Size = new System.Drawing.Size(56, 21);
-            this.comboTrack.TabIndex = 13;
+            this.comboTrack.TabIndex = 9;
             // 
             // SearchTrack
             // 
             this.SearchTrack.Location = new System.Drawing.Point(532, 107);
             this.SearchTrack.Name = "SearchTrack";
             this.SearchTrack.Size = new System.Drawing.Size(29, 20);
-            this.SearchTrack.TabIndex = 12;
+            this.SearchTrack.TabIndex = 8;
             // 
             // label5
             // 
@@ -180,7 +181,7 @@ namespace MKVSubFixer
             this.buttonPrecheck.Location = new System.Drawing.Point(12, 267);
             this.buttonPrecheck.Name = "buttonPrecheck";
             this.buttonPrecheck.Size = new System.Drawing.Size(262, 23);
-            this.buttonPrecheck.TabIndex = 15;
+            this.buttonPrecheck.TabIndex = 11;
             this.buttonPrecheck.Text = "PreCheck";
             this.buttonPrecheck.UseVisualStyleBackColor = true;
             this.buttonPrecheck.Click += new System.EventHandler(this.buttonPrecheck_Click);
@@ -191,7 +192,7 @@ namespace MKVSubFixer
             this.buttonRemux.Location = new System.Drawing.Point(280, 267);
             this.buttonRemux.Name = "buttonRemux";
             this.buttonRemux.Size = new System.Drawing.Size(246, 23);
-            this.buttonRemux.TabIndex = 16;
+            this.buttonRemux.TabIndex = 12;
             this.buttonRemux.Text = "Remux";
             this.buttonRemux.UseVisualStyleBackColor = true;
             this.buttonRemux.Click += new System.EventHandler(this.buttonRemux_Click);
@@ -224,14 +225,14 @@ namespace MKVSubFixer
             this.comboSearchName.Location = new System.Drawing.Point(204, 107);
             this.comboSearchName.Name = "comboSearchName";
             this.comboSearchName.Size = new System.Drawing.Size(56, 21);
-            this.comboSearchName.TabIndex = 22;
+            this.comboSearchName.TabIndex = 5;
             // 
             // tbNewTrackNum
             // 
             this.tbNewTrackNum.Location = new System.Drawing.Point(629, 108);
             this.tbNewTrackNum.Name = "tbNewTrackNum";
             this.tbNewTrackNum.Size = new System.Drawing.Size(29, 20);
-            this.tbNewTrackNum.TabIndex = 23;
+            this.tbNewTrackNum.TabIndex = 10;
             // 
             // butInputDir
             // 
@@ -266,7 +267,6 @@ namespace MKVSubFixer
             this.checkSubDir.TabIndex = 26;
             this.checkSubDir.Text = "Include Sub Directories";
             this.checkSubDir.UseVisualStyleBackColor = true;
-            this.checkSubDir.CheckedChanged += new System.EventHandler(this.checkSubDir_CheckedChanged);
             // 
             // pictureBox1
             // 
@@ -278,11 +278,33 @@ namespace MKVSubFixer
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
             // 
+            // cbKeepBatch
+            // 
+            this.cbKeepBatch.AutoSize = true;
+            this.cbKeepBatch.Location = new System.Drawing.Point(154, 12);
+            this.cbKeepBatch.Name = "cbKeepBatch";
+            this.cbKeepBatch.Size = new System.Drawing.Size(82, 17);
+            this.cbKeepBatch.TabIndex = 28;
+            this.cbKeepBatch.Text = "Keep Batch";
+            this.cbKeepBatch.UseVisualStyleBackColor = true;
+            // 
+            // cbBatchOnly
+            // 
+            this.cbBatchOnly.AutoSize = true;
+            this.cbBatchOnly.Location = new System.Drawing.Point(242, 12);
+            this.cbBatchOnly.Name = "cbBatchOnly";
+            this.cbBatchOnly.Size = new System.Drawing.Size(78, 17);
+            this.cbBatchOnly.TabIndex = 29;
+            this.cbBatchOnly.Text = "Batch Only";
+            this.cbBatchOnly.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 305);
+            this.Controls.Add(this.cbBatchOnly);
+            this.Controls.Add(this.cbKeepBatch);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.checkSubDir);
             this.Controls.Add(this.butOutputDir);
@@ -343,6 +365,8 @@ namespace MKVSubFixer
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.CheckBox checkSubDir;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox cbKeepBatch;
+        private System.Windows.Forms.CheckBox cbBatchOnly;
     }
 }
 

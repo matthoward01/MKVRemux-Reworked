@@ -1,4 +1,5 @@
-﻿using MKVSubFixer.Properties;
+﻿using MKVSubFixer;
+using MKVSubFixer.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace MKVSubFixer
         List<Models.Videos> remuxList = new List<Models.Videos>();
         List<Models.Videos> videoList = new List<Models.Videos>();
         string mkvmergePath = Settings.Default.MkvToolNixPath;
+        int totalCount = 0;
 
         public Form1()
         {
@@ -89,6 +91,10 @@ namespace MKVSubFixer
             if (tbInputDir.Text != "" && Directory.Exists(tbInputDir.Text))
             {                
                 buttonPrecheck.Enabled = true;
+                if (tbOutputDir.Text.Trim().Equals(""))
+                {
+                    tbOutputDir.Text = Path.Combine(tbInputDir.Text, "Remux");
+                }
             }
             else
             {
@@ -125,7 +131,7 @@ namespace MKVSubFixer
             }
             
             string[] inputFileList = { };
-            if (Settings.Default.IncludeSubDir)
+            if (checkSubDir.Checked)
             {
                 inputFileList = Directory.GetFiles(inputDir, "*.mkv", SearchOption.AllDirectories);
             }
@@ -148,14 +154,22 @@ namespace MKVSubFixer
                 SearchText.Text.ToLower(),
                 ComboLanguage.Text.ToLower()
             };
-            backgroundWorker1.RunWorkerAsync(workArgs);            
+            backgroundWorker1.RunWorkerAsync(workArgs);
+            if (tbOutputDir.Text != "")
+            {
+                buttonRemux.Enabled = true;
+            }
+            else
+            {
+                buttonRemux.Enabled = false;
+            }
         }
         private void Remux()
         {
             string cmdLine = "";
             string outputPath = tbOutputDir.Text;
             List<string> remuxListBatch = new List<string>();
-            
+
             if (!outputPath.EndsWith("\\"))
             {
                 tbOutputDir.Text += "\\";
@@ -177,8 +191,8 @@ namespace MKVSubFixer
 
                 string singleCmdLine = "";
 
-                cmdLine += "\"C:\\Program Files\\MKVToolNix\\mkvmerge.exe\" -o \"" + outputPath + v.Name + "\"";
-                singleCmdLine += "\"C:\\Program Files\\MKVToolNix\\mkvmerge.exe\" -o \"" + outputPath + v.Name + "\"";
+                cmdLine += "\"" + Path.Combine(Settings.Default.MkvToolNixPath, "mkvmerge.exe") + "\" -o \"" + outputPath + Path.GetFileName(v.Name) + "\"";
+                singleCmdLine += "\"" + Path.Combine(Settings.Default.MkvToolNixPath, "mkvmerge.exe") + "\" -o \"" + outputPath + Path.GetFileName(v.Name) + "\"";
                 foreach (Models.Tracks t in v.TrackList)
                 {
                     cmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
@@ -186,8 +200,8 @@ namespace MKVSubFixer
                     cmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
                     singleCmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
                 }
-                cmdLine += " \"(\" \"" + inputPath + v.Name + "\" \")\"";
-                singleCmdLine += " \"(\" \"" + inputPath + v.Name + "\" \")\"";
+                cmdLine += " \"(\" \"" + v.Name + "\" \")\"";
+                singleCmdLine += " \"(\" \"" + v.Name + "\" \")\"";
                 cmdLine += " --track-order ";
                 singleCmdLine += " --track-order ";
                 int count = 1;
@@ -208,9 +222,14 @@ namespace MKVSubFixer
                 cmdLine += "\r\n\r\n\n";
 
             }
+            totalCount = totalCount + remuxListBatch.Count;
             using (System.IO.StreamWriter batchFile = new System.IO.StreamWriter(Path.Combine(outputPath, "Batch.bat"), true))
             {
                 batchFile.WriteLine(cmdLine);
+            }
+            if (!cbBatchOnly.Checked)
+            {
+                var commandline = new CommandLine(Path.Combine(outputPath, "Batch.bat"), totalCount, cbKeepBatch.Checked);
             }
         }
 
@@ -305,7 +324,7 @@ namespace MKVSubFixer
                 videoList.Add(videoInfo);
                 Invoke(new Action(() =>
                 {
-                    TrackList.Items.Add(videoInfo.Name);
+                    TrackList.Items.Add(Path.GetFileName(videoInfo.Name));
                 }));
                 foreach (Models.Tracks t in videoInfo.TrackList)
                 {
@@ -383,7 +402,7 @@ namespace MKVSubFixer
                     remuxTrackList.Add(remuxTracks);
                     remuxTracks = new Models.Tracks();
                 }
-                remuxVideo.Name = v.Name;
+                remuxVideo.Name =v.Name;
                 remuxVideo.TrackList = remuxTrackList.OrderBy(x => x.Id).ToList();
                 remuxList.Add(remuxVideo);
                 remuxVideo = new Models.Videos();
@@ -397,7 +416,7 @@ namespace MKVSubFixer
             {
                 Invoke(new Action(() =>
                 {
-                    TrackList.Items.Add(v.Name);
+                    TrackList.Items.Add(Path.GetFileName(v.Name));
                 }));
                 foreach (Models.Tracks t in v.TrackList)
                 {
@@ -415,20 +434,6 @@ namespace MKVSubFixer
                 buttonPrecheck.Enabled = true;
                 pictureBox1.Visible = false;
             }));
-        }
-
-        private void checkSubDir_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkSubDir.Checked == true)
-            {
-                Settings.Default.IncludeSubDir = true;
-            }
-            else
-            {
-                Settings.Default.IncludeSubDir = false;
-
-            }
-            Settings.Default.Save();
         }
     }
 }
