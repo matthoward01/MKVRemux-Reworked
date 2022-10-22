@@ -63,7 +63,7 @@ namespace MKVSubFixer
 
                                 }
                                 tracks.Id = ExtractTrackNumbers(content);
-                                videoInfo.Name = Path.GetFileName(filename);
+                                videoInfo.Name = filename;
                                 break;
                             case "Track type":
                                 tracks.Type = content;
