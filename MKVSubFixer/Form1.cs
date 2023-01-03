@@ -195,10 +195,37 @@ namespace MKVSubFixer
                 singleCmdLine += "\"" + Path.Combine(Settings.Default.MkvToolNixPath, "mkvmerge.exe") + "\" -o \"" + outputPath + Path.GetFileName(v.Name) + "\"";
                 foreach (Models.Tracks t in v.TrackList)
                 {
-                    cmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
-                    singleCmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
-                    cmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
-                    singleCmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
+                    if (SearchTrack.Text.Trim().Equals("") && tbNewTrackNum.Text.Trim().Equals(""))
+                    {
+                        cmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
+                        singleCmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
+                        cmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
+                        singleCmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
+                    }
+                    else
+                    {
+                        if (SearchTrack.Text.Trim().Equals(t.Id))
+                        {
+                            cmdLine += " --language " + (Int32.Parse(tbNewTrackNum.Text) - 1) + ":" + t.Language;
+                            singleCmdLine += " --language " + (Int32.Parse(tbNewTrackNum.Text) - 1) + ":" + t.Language;
+                            cmdLine += " --track-name " + (Int32.Parse(tbNewTrackNum.Text) - 1) + ":\"" + t.Name + "\"";
+                            singleCmdLine += " --track-name " + (Int32.Parse(tbNewTrackNum.Text) - 1) + ":\"" + t.Name + "\"";
+                        }
+                        else if (tbNewTrackNum.Text.Trim().Equals(t.Id))
+                        {
+                            cmdLine += " --language " + (Int32.Parse(SearchTrack.Text) - 1) + ":" + t.Language;
+                            singleCmdLine += " --language " + (Int32.Parse(SearchTrack.Text) - 1) + ":" + t.Language;
+                            cmdLine += " --track-name " + (Int32.Parse(SearchTrack.Text) - 1) + ":\"" + t.Name + "\"";
+                            singleCmdLine += " --track-name " + (Int32.Parse(SearchTrack.Text) - 1) + ":\"" + t.Name + "\"";
+                        }
+                        else
+                        {
+                            cmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
+                            singleCmdLine += " --language " + (Int32.Parse(t.Id) - 1) + ":" + t.Language;
+                            cmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
+                            singleCmdLine += " --track-name " + (Int32.Parse(t.Id) - 1) + ":\"" + t.Name + "\"";
+                        }
+                    }
                 }
                 cmdLine += " \"(\" \"" + v.Name + "\" \")\"";
                 singleCmdLine += " \"(\" \"" + v.Name + "\" \")\"";
@@ -207,14 +234,53 @@ namespace MKVSubFixer
                 int count = 1;
                 foreach (Models.Tracks t in v.TrackList)
                 {
-                    cmdLine += "0:" + (Int32.Parse(t.Id) - 1);
-                    singleCmdLine += "0:" + (Int32.Parse(t.Id) - 1);
-                    if (count != v.TrackList.Count)
+                    if (SearchTrack.Text.Trim().Equals("") && tbNewTrackNum.Text.Trim().Equals(""))
                     {
-                        cmdLine += ",";
-                        singleCmdLine += ",";
+                        cmdLine += "0:" + (Int32.Parse(t.Id) - 1);
+                        singleCmdLine += "0:" + (Int32.Parse(t.Id) - 1);
+                        if (count != v.TrackList.Count)
+                        {
+                            cmdLine += ",";
+                            singleCmdLine += ",";
+                        }
+                        count++;
                     }
-                    count++;
+                    else
+                    {
+                        if (SearchTrack.Text.Trim().Equals(t.Id))
+                        {
+                            cmdLine += "0:" + (Int32.Parse(tbNewTrackNum.Text) - 1);
+                            singleCmdLine += "0:" + (Int32.Parse(tbNewTrackNum.Text) - 1);
+                            if (count != v.TrackList.Count)
+                            {
+                                cmdLine += ",";
+                                singleCmdLine += ",";
+                            }
+                            count++;
+                        }
+                        else if (tbNewTrackNum.Text.Trim().Equals(t.Id))
+                        {
+                            cmdLine += "0:" + (Int32.Parse(SearchTrack.Text) - 1);
+                            singleCmdLine += "0:" + (Int32.Parse(SearchTrack.Text) - 1);
+                            if (count != v.TrackList.Count)
+                            {
+                                cmdLine += ",";
+                                singleCmdLine += ",";
+                            }
+                            count++;
+                        }
+                        else
+                        {
+                            cmdLine += "0:" + (Int32.Parse(t.Id) - 1);
+                            singleCmdLine += "0:" + (Int32.Parse(t.Id) - 1);
+                            if (count != v.TrackList.Count)
+                            {
+                                cmdLine += ",";
+                                singleCmdLine += ",";
+                            }
+                            count++;
+                        }
+                    }
                 }                
                 cmdLine += "\"";
                 singleCmdLine += "\"";
